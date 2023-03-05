@@ -9,7 +9,7 @@ namespace AG.Models
     {
         [Key]
         public int Id { get; set; }
-        public int statusId { get; set; }
+        
         [Required]
         public int photoId { get; set; }
         public DateTime Date { get; set; }
@@ -20,7 +20,7 @@ namespace AG.Models
         
 
         public Photo PlantPhoto { get; set; }
-        public Status Status { get; set; }
+        
         public Diseases diseases { get; set; }
         public Notification Notification { get; set; }
 

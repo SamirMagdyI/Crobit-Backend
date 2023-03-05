@@ -65,7 +65,7 @@ namespace AG.Controllers
 
         private async Task<AuthenticationResponse> BuildToken(UserSigninDTO userCredentials)
         {
-            var claims = new List<Claim>()
+            var claims1 = new List<Claim>()
             {
                 new Claim("email", userCredentials.Email)
             };
@@ -73,14 +73,14 @@ namespace AG.Controllers
             var user = await userManager.FindByEmailAsync(userCredentials.Email);
             var claimsDB = await userManager.GetClaimsAsync(user);
 
-            claims.AddRange(claimsDB);
+            claims1.AddRange(claimsDB);
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var expiration = DateTime.UtcNow.AddYears(1);
 
-            var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
+            var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims1,
                 expires: expiration, signingCredentials: creds);
 
             return new AuthenticationResponse()

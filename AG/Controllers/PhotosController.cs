@@ -11,12 +11,13 @@ using AG.DTO;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace AG.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class PhotosController : ControllerBase
     {
         private readonly AppContext _context;
@@ -36,7 +37,7 @@ namespace AG.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PhotoDto>>> Getphotos()
         {
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             var UserId = user.Id;
             var result =await _context.photos.Where(p=>p.UserId==UserId).ToListAsync();
@@ -63,11 +64,11 @@ namespace AG.Controllers
         [HttpGet("today")]
         public  async Task<IActionResult> GetPhoto()
         {
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             var UserId = user.Id;
             var today = DateTime.Today;
-           var result= await _context.photos.Where(p => p.Date == today && p.UserId==UserId).ToListAsync();
+           var result= await _context.photos.Where(p => p.Date.Day == today.Day&&p.Date.Month==today.Month&&p.Date.Year==today.Year && p.UserId==UserId).ToListAsync();
 
             return Ok(mapper.Map<List<PhotoDto>>(result)) ;  
         }
@@ -79,7 +80,7 @@ namespace AG.Controllers
         {
             var photoDB = new Photo { photo = photo.photo,Date = photo.Date};
 
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             photoDB.UserId = user.Id;
             photoDB.User=user;

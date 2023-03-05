@@ -11,12 +11,13 @@ using Microsoft.AspNetCore.Identity;
 using AG.DTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace AG.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+   [Authorize(AuthenticationSchemes = "Bearer")]
     public class LocationsController : ControllerBase
     {
         private readonly AppContext _context;
@@ -34,7 +35,8 @@ namespace AG.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LocationDTO>>> Getlocation()
         {
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+           
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             var UserId = user.Id;
             var result= await _context.location.Where(l => l.UserId == UserId).Include("Points").ToListAsync();
@@ -61,7 +63,7 @@ namespace AG.Controllers
         public async Task<ActionResult<LocationDTO>> PostLocation(LocationDTO location)
         {
             var locationDB=mapper.Map<Location>(location);
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             var UserId = user.Id;
             locationDB.UserId = UserId;

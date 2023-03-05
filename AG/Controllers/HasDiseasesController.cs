@@ -11,12 +11,14 @@ using AutoMapper;
 using AG.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AG.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class HasDiseasesController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -35,14 +37,18 @@ namespace AG.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HasDiseaseDTO>>> GethasDiseases()
         {
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             var UserId = user.Id;
-            var result= mapper.Map<List<HasDiseaseDTO>>(
-                                  _context.hasDiseases
-                                  .Where( h=>h.PlantPhoto.UserId==UserId||h.Status.UserId==UserId)
-                                  .OrderBy(h=>h.Date).ToListAsync());
-            return Ok(result);
+
+            var v = _context.hasDiseases.Include(h => h.PlantPhoto);
+            var x=_context.hasDiseases
+                                  .Where(h => h.PlantPhoto.UserId == UserId)
+                                  .OrderBy(h => h.Date).ToList();
+        
+            var resutl = mapper.Map<List<HasDiseaseDTO>>(v);
+
+            return Ok(resutl);
         }
 
         // GET: api/HasDiseases/5
@@ -96,10 +102,9 @@ namespace AG.Controllers
         public async Task<ActionResult<HasDiseaseDTO>> PostHasDisease(HasDiseaseDTO hasDisease)
         {
             HasDisease hDB=new HasDisease(); 
-            hDB.PlantPhoto = await _context.photos.FindAsync(hasDisease.photoId);
-            if(hasDisease.statusId!=0)hDB.Status=await _context.statuses.FindAsync(hasDisease.statusId);
             hDB.photoId = hasDisease.photoId;
-            hDB.statusId=hasDisease.statusId;           
+            hDB.DiseasesID = hasDisease.DiseasesID; 
+
             _context.hasDiseases.Add(hDB);
             await _context.SaveChangesAsync();
 

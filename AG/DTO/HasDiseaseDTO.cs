@@ -20,10 +20,11 @@ namespace AG.DTO
         public int DiseasesID { get; set; }
 
 
-        public string PhotoPath { get; set; }
 
-        public StatusDTO Status { get; set; }
-        public Diseases diseases { get; set; }
-       
+        //public string PhotoPath { get; set; }
+
+        //public StatusDTO Status { get; set; }
+        //public Diseases diseases { get; set; }
+
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace AG.Models
 {
@@ -12,6 +13,7 @@ namespace AG.Models
         public string photo { get; set; }
 
         [ForeignKey("User")]
+        [Required]
         public string UserId { get; set; }
         public IdentityUser User { get; set; }
 

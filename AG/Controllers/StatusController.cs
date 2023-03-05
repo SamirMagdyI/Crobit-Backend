@@ -11,12 +11,13 @@ using AG.DTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace AG.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
 
     public class StatusController : ControllerBase
     {
@@ -34,7 +35,7 @@ namespace AG.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StatusDTO>>> Getstatuses()
         {
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             var UserId = user.Id;
             var result= await _context.statuses.Where(p=>p.UserId==UserId).ToListAsync();
@@ -58,11 +59,11 @@ namespace AG.Controllers
         [HttpGet("today")]
         public async Task<IActionResult> GetStatus()
         {
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             var UserId = user.Id;
             var today = DateTime.Today;
-            var result = await _context.statuses.Where(p => p.Date == today&&p.UserId==UserId).ToListAsync();
+            var result = await _context.statuses.Where(p => p.Date.Day == today.Day && p.Date.Month == today.Month && p.Date.Year == today.Year && p.UserId == UserId).ToListAsync();
 
             return Ok(mapper.Map<List<StatusDTO>>(result));
         }
@@ -74,7 +75,7 @@ namespace AG.Controllers
         public async Task<ActionResult<StatusDTO>> PostStatus(StatusDTO status)
         {
             var statusDB=mapper.Map<Status>(status);
-            var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value;
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             statusDB.UserId = user.Id;
             statusDB.User = user;

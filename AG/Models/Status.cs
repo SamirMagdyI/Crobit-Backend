@@ -19,6 +19,7 @@ namespace AG.Models
         
         public int Heat { get; set; }
         [ForeignKey("User")]
+        [Required]
         public string UserId { get; set; }
         public IdentityUser User { get; set; }
         

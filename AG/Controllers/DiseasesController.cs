@@ -13,7 +13,7 @@ namespace AG.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class DiseasesController : ControllerBase
     {
         private readonly AppContext _context;
