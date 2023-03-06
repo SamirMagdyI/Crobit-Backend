@@ -110,5 +110,24 @@ namespace AG.Controllers
         {
             return _context.photos.Any(e => e.Id == id);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Policy = "aiAdmin")]
+        [HttpGet("AfterDate")]
+        public async Task<IActionResult> GetPhoto(DateTime date)
+        {
+            //var result = await _context.photos.Where(p => p.Date.Day > date.Day && p.Date.Month >= date.Month && p.Date.Year >= date.Year ).ToListAsync();
+            var result = await _context.photos.Where(p => p.Date>date ).ToListAsync();
+
+            return Ok(mapper.Map<List<PhotoDto>>(result));
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer",Policy ="aiAdmin")]
+        [HttpGet("All")]
+        public async Task<IActionResult> GetALLPhoto()
+        {
+            var result = await _context.photos.ToListAsync();
+
+            return Ok(mapper.Map<List<PhotoDto>>(result));
+        }
     }
 }

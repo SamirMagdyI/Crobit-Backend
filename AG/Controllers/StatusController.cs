@@ -105,5 +105,37 @@ namespace AG.Controllers
         {
             return _context.statuses.Any(e => e.ID == id);
         }
+
+        [HttpGet("AfterDate")]
+        public async Task<IActionResult> GetSataus(DateTime date)
+        {
+            var result = await _context.statuses.Where(p => p.Date > date).ToListAsync();
+
+            return Ok(mapper.Map<List<StatusDTO>>(result));
+        }
+
+
+
+
+
+
+        [HttpGet("All")]
+        public async Task<IActionResult> getAll()
+        {
+            var r = _context.statuses;
+            var result=r.ToList();
+            return Ok(result);
+        }
+
+
+
+
+
+
+
+
+
+      
+
     }
 }

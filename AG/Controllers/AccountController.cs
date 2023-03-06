@@ -13,6 +13,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using AG.Migrations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AG.Controllers
 {
@@ -21,20 +24,25 @@ namespace AG.Controllers
     public class AccountController : ControllerBase
     {
         private UserManager<IdentityUser> userManager;
+        private RoleManager<IdentityRole> roleManager;
 
         public SignInManager<IdentityUser> SignInManager { get; }
 
         private IConfiguration configuration;
         private AppContext appContext;
 
+
         public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IConfiguration configuration,AppContext appContext)
+            IConfiguration configuration,AppContext appContext,
+            RoleManager<IdentityRole> roleManager
+            )
         {
             this.userManager = userManager;
             this.SignInManager = signInManager;
             this.configuration = configuration;
             this.appContext = appContext;
+            this.roleManager = roleManager;
         }
 
 
@@ -72,8 +80,14 @@ namespace AG.Controllers
 
             var user = await userManager.FindByEmailAsync(userCredentials.Email);
             var claimsDB = await userManager.GetClaimsAsync(user);
+            var roles=await userManager.GetRolesAsync(user);
 
             claims1.AddRange(claimsDB);
+            foreach(var role in roles)
+            {
+                claims1.Add(new Claim(ClaimTypes.Role, role));  
+            }
+            
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -92,5 +106,17 @@ namespace AG.Controllers
                 ExpireDate = expiration
             };
         }
+
+        [HttpPost("roles")]
+       
+        public async Task<IActionResult> roles()
+        {
+            
+            //await roleManager.CreateAsync(new IdentityRole("AI"));
+            //await roleManager.CreateAsync(new IdentityRole("Embedded"));
+
+            return Ok();
+        }
+
     }
 }
