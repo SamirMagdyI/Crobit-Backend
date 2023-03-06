@@ -10,7 +10,7 @@ namespace AG.DTO
     {
         [Key]
         public int Id { get; set; }
-        public int statusId { get; set; }
+     
         [Required]
         public int photoId { get; set; }
         public DateTime Date { get; set; }

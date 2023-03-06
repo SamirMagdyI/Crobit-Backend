@@ -110,5 +110,39 @@ namespace AG.Controllers
         {
             return _context.photos.Any(e => e.Id == id);
         }
+
+        //for AI admin
+        [Authorize(AuthenticationSchemes = "Bearer", Policy = "aiAdmin")]
+        [HttpGet("AfterDate")]
+        public async Task<IActionResult> GetPhoto(DateTime date)
+        {
+            //var result = await _context.photos.Where(p => p.Date.Day > date.Day && p.Date.Month >= date.Month && p.Date.Year >= date.Year ).ToListAsync();
+            var result = await _context.photos.Where(p => p.Date>date ).ToListAsync();
+
+            return Ok(mapper.Map<List<PhotoDto>>(result));
+        }
+        [Authorize(AuthenticationSchemes = "Bearer",Policy ="aiAdmin")]
+        [HttpGet("All")]
+        public async Task<IActionResult> GetALLPhoto()
+        {
+            var result = await _context.photos.ToListAsync();
+
+            return Ok(mapper.Map<List<PhotoDto>>(result));
+        }
+
+        //for Embedded admin 
+        [HttpPost("hardware")]
+        public async Task<IActionResult> post(PhotoDto photo,string hardwareNum)
+        {
+            var photoDB = new Photo { photo = photo.photo, Date = photo.Date };
+            var user = _context.hardwareInfo.Include(x => x.User).SingleOrDefault(h => h.HardwareNum == hardwareNum)?.User;
+            if (user == null) return BadRequest("the hardwareNum is incorrect");
+            photoDB.UserId = user.Id;
+            photoDB.User = user;
+
+            _context.photos.Add(photoDB);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }

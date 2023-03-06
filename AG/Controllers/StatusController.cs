@@ -87,6 +87,7 @@ namespace AG.Controllers
 
         // DELETE: api/Status/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Policy = "aiAdmin")]
         public async Task<IActionResult> DeleteStatus(int id)
         {
             var status = await _context.statuses.FindAsync(id);
@@ -105,5 +106,48 @@ namespace AG.Controllers
         {
             return _context.statuses.Any(e => e.ID == id);
         }
+
+        //for AI admin
+        [HttpGet("AfterDate")]
+        [Authorize(AuthenticationSchemes = "Bearer", Policy = "aiAdmin")]
+        public async Task<IActionResult> GetSataus(DateTime date)
+        {
+            var result = await _context.statuses.Where(p => p.Date > date).ToListAsync();
+
+            return Ok(mapper.Map<List<StatusDTO>>(result));
+        }
+        [HttpGet("All")]
+        public async Task<IActionResult> getAll()
+        {
+            var r = _context.statuses;
+            var result=r.ToList();
+            return Ok(result);
+        }
+
+        //for Embedded Admin
+        [HttpPost("hardware")]
+        [Authorize(AuthenticationSchemes ="Bearer", Policy = "embeddedAdmin")]
+        
+        public async Task<ActionResult<StatusDTO>> Post(StatusDTO status,string hardwareNum)
+        {
+            var statusDB = mapper.Map<Status>(status);
+            var user= _context.hardwareInfo.Include(x => x.User).SingleOrDefault(h => h.HardwareNum == hardwareNum)?.User;
+            if (user == null) return BadRequest("the hardwareNum is incorrect");
+            statusDB.UserId = user.Id;
+            statusDB.User = user;
+            _context.statuses.Add(statusDB);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
+
+
+
+
+
+
+
     }
 }

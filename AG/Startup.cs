@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
@@ -66,10 +67,20 @@ namespace AG
                 option.User.RequireUniqueEmail = true;
                 option.Password.RequiredLength = 6;
                 option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireDigit = false;
+                option.Password.RequiredUniqueChars = 0;
+                option.Password.RequireLowercase = false;
         
             })
                 .AddEntityFrameworkStores<AppContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("aiAdmin", p => p.RequireRole("AI"));
+                options.AddPolicy("embeddedAdmin", p => p.RequireRole("Embedded"));
+            }
+                 );
                 
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
@@ -93,8 +104,9 @@ namespace AG
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
