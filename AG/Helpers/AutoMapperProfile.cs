@@ -12,7 +12,8 @@ namespace AG.Helpers
             CreateMap<Photo, PhotoDto>().ReverseMap();
             CreateMap<Status, StatusDTO>().ReverseMap();
             CreateMap<Location, LocationDTO>().ReverseMap();
-            CreateMap<HasDisease, HasDiseaseDTO>().ReverseMap();    
+            CreateMap<HasDisease, HasDiseaseDTO>().ReverseMap();
+            CreateMap<Models.HardwareInfo, HardwareInfoDTO>().ReverseMap();
         }
     }
 }

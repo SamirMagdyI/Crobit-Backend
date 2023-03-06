@@ -26,5 +26,6 @@ namespace AG
         public DbSet<HasDisease> hasDiseases { get; set; }
         public DbSet<Location> location { get; set; }   
         public DbSet<Point> point { get; set; }
+        public DbSet<HardwareInfo> hardwareInfo { get; set; }
     }
 }
