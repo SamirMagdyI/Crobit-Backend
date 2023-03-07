@@ -61,6 +61,12 @@ namespace AG
                       
                       }
                   );
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("aiAdmin", p => p.RequireRole("AI"));
+                options.AddPolicy("embeddedAdmin", p => p.RequireRole("Embedded"));
+            }
+                );
 
             services.AddIdentity<IdentityUser, IdentityRole>(option =>
             {
