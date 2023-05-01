@@ -71,6 +71,9 @@ namespace AG
             services.AddIdentity<IdentityUser, IdentityRole>(option =>
             {
                 option.User.RequireUniqueEmail = true;
+                option.User.AllowedUserNameCharacters = null;
+                
+               
                 option.Password.RequiredLength = 6;
                 option.Password.RequireNonAlphanumeric = false;
                 option.Password.RequireDigit = false;

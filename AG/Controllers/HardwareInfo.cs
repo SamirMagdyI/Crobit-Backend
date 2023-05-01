@@ -46,6 +46,8 @@ namespace AG.Controllers
             hardwareInfo.HardwareNum = hardwareNum;
             hardwareInfo.UserId = user.Id;
 
+            if(_context.hardwareInfo.Where(h => h.HardwareNum == hardwareNum).Count()>0) return BadRequest("the hardware num is exsist");
+
             _context.hardwareInfo.Add(hardwareInfo);
             await _context.SaveChangesAsync();
 

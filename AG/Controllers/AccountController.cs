@@ -107,16 +107,7 @@ namespace AG.Controllers
             };
         }
 
-        [HttpPost("roles")]
-       
-        public async Task<IActionResult> roles()
-        {
-            
-            //await roleManager.CreateAsync(new IdentityRole("AI"));
-            //await roleManager.CreateAsync(new IdentityRole("Embedded"));
-
-            return Ok();
-        }
+      
 
     }
 }

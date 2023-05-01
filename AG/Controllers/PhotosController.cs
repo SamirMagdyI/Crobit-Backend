@@ -131,6 +131,7 @@ namespace AG.Controllers
         }
 
         //for Embedded admin 
+        [Authorize(AuthenticationSchemes = "Bearer", Policy = "embeddedAdmin")]
         [HttpPost("hardware")]
         public async Task<IActionResult> post(PhotoDto photo,string hardwareNum)
         {

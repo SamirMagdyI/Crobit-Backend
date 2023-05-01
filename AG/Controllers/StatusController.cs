@@ -117,6 +117,7 @@ namespace AG.Controllers
             return Ok(mapper.Map<List<StatusDTO>>(result));
         }
         [HttpGet("All")]
+        [Authorize(AuthenticationSchemes = "Bearer", Policy = "aiAdmin")]
         public async Task<IActionResult> getAll()
         {
             var r = _context.statuses;
