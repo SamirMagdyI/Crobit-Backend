@@ -14,6 +14,6 @@ namespace AG.Models
         [ForeignKey("User")]
         [Required]
         public string UserId { get; set; }
-        public IdentityUser User { get; set; }
+        public AppUser User { get; set; }
     }
 }

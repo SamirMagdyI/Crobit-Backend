@@ -19,6 +19,7 @@ namespace AG
            
                 
         }
+        public DbSet<AppUser> Appusers { get; set; }
         public DbSet<Diseases> Diseases { get; set; }
         public DbSet<Status> statuses { get; set; }
         public DbSet<Photo> photos { get; set; }

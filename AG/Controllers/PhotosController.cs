@@ -22,10 +22,10 @@ namespace AG.Controllers
     {
         private readonly AppContext _context;
         private readonly IMapper mapper;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<AppUser> userManager;
 
         public PhotosController(AppContext context,IMapper mapper
-                               ,UserManager<IdentityUser>userManager)
+                               ,UserManager<AppUser> userManager)
             
         {
             _context = context;

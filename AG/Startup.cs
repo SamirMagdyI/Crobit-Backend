@@ -1,3 +1,4 @@
+using AG.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -68,7 +69,7 @@ namespace AG
             }
                 );
 
-            services.AddIdentity<IdentityUser, IdentityRole>(option =>
+            services.AddIdentity<AppUser, IdentityRole>(option =>
             {
                 option.User.RequireUniqueEmail = true;
                 option.User.AllowedUserNameCharacters = null;

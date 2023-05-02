@@ -11,7 +11,7 @@ namespace AG.Models
         public int Id { get; set; }
         [ForeignKey("User")]
         public string UserId { get; set; }
-        public IdentityUser User { get; set; }
+        public AppUser User { get; set; }
         public List<Point> Points { get; set; }
     }
 

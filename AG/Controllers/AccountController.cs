@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using AG.Migrations;
 using Microsoft.AspNetCore.Authorization;
+using AG.Models;
 
 namespace AG.Controllers
 {
@@ -23,17 +24,17 @@ namespace AG.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private UserManager<IdentityUser> userManager;
+        private UserManager<AppUser> userManager;
         private RoleManager<IdentityRole> roleManager;
 
-        public SignInManager<IdentityUser> SignInManager { get; }
+        public SignInManager<AppUser> SignInManager { get; }
 
         private IConfiguration configuration;
         private AppContext appContext;
 
 
-        public AccountController(UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+        public AccountController(UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
             IConfiguration configuration,AppContext appContext,
             RoleManager<IdentityRole> roleManager
             )
@@ -49,7 +50,7 @@ namespace AG.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> create(UserSignUp userCredentials)
         {
-            var user=new IdentityUser { Email=userCredentials.Email,UserName=userCredentials.UserName};
+            var user=new AppUser { Email=userCredentials.Email,UserName=userCredentials.UserName};
             var result = await userManager.CreateAsync(user,userCredentials.Password);
             if (result.Succeeded)
             {

@@ -23,8 +23,8 @@ namespace AG.Controllers
     {
         private readonly AppContext _context;
         private readonly IMapper mapper;
-        private readonly UserManager<IdentityUser> userManager;
-        public StatusController(AppContext context, UserManager<IdentityUser> userManager,IMapper mapper)
+        private readonly UserManager<AppUser> userManager;
+        public StatusController(AppContext context, UserManager<AppUser> userManager,IMapper mapper)
         {
             _context = context;
             this.userManager = userManager;

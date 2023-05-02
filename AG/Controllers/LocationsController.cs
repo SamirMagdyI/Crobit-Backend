@@ -21,10 +21,10 @@ namespace AG.Controllers
     public class LocationsController : ControllerBase
     {
         private readonly AppContext _context;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
 
-        public LocationsController(AppContext context, UserManager<IdentityUser> userManager,IMapper mapper)
+        public LocationsController(AppContext context, UserManager<AppUser> userManager,IMapper mapper)
         {
             _context = context;
             this.userManager = userManager;
