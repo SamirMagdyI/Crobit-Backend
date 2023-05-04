@@ -4,14 +4,16 @@ using AG;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AG.Migrations
 {
     [DbContext(typeof(AppContext))]
-    partial class AppContextModelSnapshot : ModelSnapshot
+    [Migration("20230502165955_device_token")]
+    partial class device_token
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +36,6 @@ namespace AG.Migrations
 
                     b.Property<string>("SugestedTreatment")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -98,7 +97,6 @@ namespace AG.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -106,24 +104,6 @@ namespace AG.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("location");
-                });
-
-            modelBuilder.Entity("AG.Models.MapLink", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("link")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MapLinks");
                 });
 
             modelBuilder.Entity("AG.Models.Photo", b =>
@@ -135,12 +115,6 @@ namespace AG.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<double>("Lan")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Long")
-                        .HasColumnType("float");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -169,7 +143,7 @@ namespace AG.Migrations
                     b.Property<int>("LocationID")
                         .HasColumnType("int");
 
-                    b.Property<double>("Long")
+                    b.Property<double>("Wan")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -189,36 +163,24 @@ namespace AG.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Heat")
-                        .HasColumnType("float");
+                    b.Property<int>("Heat")
+                        .HasColumnType("int");
 
-                    b.Property<double>("Humidity")
-                        .HasColumnType("float");
+                    b.Property<int>("Humidity")
+                        .HasColumnType("int");
 
-                    b.Property<double>("K")
-                        .HasColumnType("float");
+                    b.Property<int>("Ph")
+                        .HasColumnType("int");
 
-                    b.Property<double>("Lan")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Long")
-                        .HasColumnType("float");
-
-                    b.Property<double>("N")
-                        .HasColumnType("float");
-
-                    b.Property<double>("P")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Ph")
-                        .HasColumnType("float");
+                    b.Property<int>("Salts")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<double>("WaterLevel")
-                        .HasColumnType("float");
+                    b.Property<int>("WaterLevel")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -497,9 +459,7 @@ namespace AG.Migrations
                 {
                     b.HasOne("AG.Models.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

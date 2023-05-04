@@ -16,6 +16,8 @@ namespace AG.Models
         [Required]
         public string UserId { get; set; }
         public AppUser User { get; set; }
+        public double Lan { get; set; }
+        public double Long { get; set; }
 
 
     }

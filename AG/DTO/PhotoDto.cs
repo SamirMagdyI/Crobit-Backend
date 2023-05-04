@@ -7,6 +7,8 @@ namespace AG.DTO
         public int Id { get; set; } = 0;    
         public DateTime Date { get; set; }
         public string photo { get; set; }
-      
+        public double Lan { get; set; }
+        public double Long { get; set; }
+
     }
 }

@@ -11,13 +11,19 @@ namespace AG.Models
         [Key]
         public int ID { get; set; }
         public DateTime Date { get; set; }
-        public int Humidity { get; set; }
-        public int WaterLevel { get; set; }
-        public int Salts { get; set; }
-        public int Ph { get; set; }
+        public double Humidity { get; set; }
+        public double WaterLevel { get; set; }
+        public double N { get; set; }
+        public double P { get; set; }
+        public double K { get; set; }
+
+
+        public double Ph { get; set; }
+        public double Lan { get; set; }
+        public double Long { get; set; }
         
         
-        public int Heat { get; set; }
+        public double Heat { get; set; }
         [ForeignKey("User")]
         [Required]
         public string UserId { get; set; }

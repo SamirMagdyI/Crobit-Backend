@@ -22,7 +22,7 @@ namespace AG.Models
         public Photo PlantPhoto { get; set; }
         
         public Diseases diseases { get; set; }
-        public Notification Notification { get; set; }
+      //  public Notification Notification { get; set; }
 
 
     }

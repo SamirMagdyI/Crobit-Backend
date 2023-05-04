@@ -10,17 +10,21 @@ namespace AG.Models
     {
         public int Id { get; set; }
         [ForeignKey("User")]
+        [Required]
         public string UserId { get; set; }
         public AppUser User { get; set; }
         public List<Point> Points { get; set; }
+        
     }
+
+    
 
     public class Point
     {
         [Key]
         public int Id { get; set; }
         public double Lan { get; set; }
-        public double Wan { get; set; }
+        public double Long { get; set; }
         [ForeignKey("Location")]
         public int LocationID { get; set; }
         //  public Location Location { get; set; }

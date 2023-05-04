@@ -1,4 +1,5 @@
 using AG.Models;
+using CorePush.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using notification.models;
+using notification.services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,7 +87,13 @@ namespace AG
             })
                 .AddEntityFrameworkStores<AppContext>()
                 .AddDefaultTokenProviders();
-                
+
+            //notification
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddHttpClient<FcmSender>();
+            var appSettingsSection = Configuration.GetSection("FcmNotification");
+            services.Configure<FcmNotificationSetting>(appSettingsSection);
+            //------------------------------------------------------------------------
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerGen(c =>

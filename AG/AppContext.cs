@@ -19,14 +19,16 @@ namespace AG
            
                 
         }
+        public DbSet<deviceTokenModel> DeviceTokens { get; set; }
         public DbSet<AppUser> Appusers { get; set; }
         public DbSet<Diseases> Diseases { get; set; }
         public DbSet<Status> statuses { get; set; }
         public DbSet<Photo> photos { get; set; }
-        public DbSet<Notification> notifications { get; set; }
+        //public DbSet<Notification> notifications { get; set; }
         public DbSet<HasDisease> hasDiseases { get; set; }
         public DbSet<Location> location { get; set; }   
         public DbSet<Point> point { get; set; }
         public DbSet<HardwareInfo> hardwareInfo { get; set; }
+        public DbSet<MapLink>MapLinks { get; set; }
     }
 }

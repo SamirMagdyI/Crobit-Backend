@@ -4,14 +4,16 @@ using AG;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AG.Migrations
 {
     [DbContext(typeof(AppContext))]
-    partial class AppContextModelSnapshot : ModelSnapshot
+    [Migration("20230614192621_add_type_for_desease")]
+    partial class add_type_for_desease
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,24 +110,6 @@ namespace AG.Migrations
                     b.ToTable("location");
                 });
 
-            modelBuilder.Entity("AG.Models.MapLink", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("link")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MapLinks");
-                });
-
             modelBuilder.Entity("AG.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -195,22 +179,16 @@ namespace AG.Migrations
                     b.Property<double>("Humidity")
                         .HasColumnType("float");
 
-                    b.Property<double>("K")
-                        .HasColumnType("float");
-
                     b.Property<double>("Lan")
                         .HasColumnType("float");
 
                     b.Property<double>("Long")
                         .HasColumnType("float");
 
-                    b.Property<double>("N")
-                        .HasColumnType("float");
-
-                    b.Property<double>("P")
-                        .HasColumnType("float");
-
                     b.Property<double>("Ph")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Salts")
                         .HasColumnType("float");
 
                     b.Property<string>("UserId")

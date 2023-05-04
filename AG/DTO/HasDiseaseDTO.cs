@@ -27,4 +27,10 @@ namespace AG.DTO
         //public Diseases diseases { get; set; }
 
     }
+
+    public class HasDiseaseResponse
+    {
+        public PhotoDto Photo { get; set; }
+        public Diseases Diseases { get; set; }
+    }
 }

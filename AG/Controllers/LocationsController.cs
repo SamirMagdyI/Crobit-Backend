@@ -70,8 +70,9 @@ namespace AG.Controllers
             locationDB.User = user;
             _context.location.Add(locationDB);
             await _context.SaveChangesAsync();
+            location.Id = location.Points[0].LocationID;
 
-            return CreatedAtAction("GetLocation", new { id = location.Id }, location);
+            return CreatedAtAction("GetLocation", new { id = location?.Points[0].LocationID }, location );
         }
 
         // DELETE: api/Locations/5
@@ -94,5 +95,16 @@ namespace AG.Controllers
         {
             return _context.location.Any(e => e.Id == id);
         }
+
+        [HttpGet("ALLLocations")]
+        public async Task<IActionResult> AllLocatino()
+        {
+            var location = await _context.location.Include(l=>l.Points).ToListAsync();
+            var locationDto = mapper.Map<List<LocationDTO>>(location);
+            return Ok(locationDto);
+
+        }
+
+
     }
 }

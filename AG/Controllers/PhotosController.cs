@@ -78,12 +78,13 @@ namespace AG.Controllers
         [HttpPost]
         public async Task<IActionResult> PostPhoto(PhotoDto photo)
         {
-            var photoDB = new Photo { photo = photo.photo,Date = photo.Date};
+            var photoDB = new Photo { photo = photo.photo,Date = photo.Date,Lan=photo.Lan,Long=photo.Long};
 
             var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await userManager.FindByEmailAsync(email);
             photoDB.UserId = user.Id;
             photoDB.User=user;
+
 
             _context.photos.Add(photoDB);
             await _context.SaveChangesAsync();
@@ -135,7 +136,7 @@ namespace AG.Controllers
         [HttpPost("hardware")]
         public async Task<IActionResult> post(PhotoDto photo,string hardwareNum)
         {
-            var photoDB = new Photo { photo = photo.photo, Date = photo.Date };
+            var photoDB = new Photo { photo = photo.photo, Date = photo.Date,Long=photo.Long,Lan=photo.Lan };
             var user = _context.hardwareInfo.Include(x => x.User).SingleOrDefault(h => h.HardwareNum == hardwareNum)?.User;
             if (user == null) return BadRequest("the hardwareNum is incorrect");
             photoDB.UserId = user.Id;

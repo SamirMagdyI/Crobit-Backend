@@ -9,5 +9,7 @@ namespace AG.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string SugestedTreatment { get; set; }
+        [Range(1,3)]
+        public int Type { get; set; }
     }
 }
