@@ -196,6 +196,9 @@ namespace AG.Controllers
                 return Ok();
             }
         }
+        /**
+  * This is a comment.
+  */
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("notifications")]
         public async Task<IActionResult> Notifications()

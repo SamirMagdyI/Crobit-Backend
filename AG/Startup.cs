@@ -98,7 +98,8 @@ namespace AG
             services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AG", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Crobit Backend", Version = "v1" });
+                
             });
         }
 
@@ -109,7 +110,7 @@ namespace AG
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AG v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Crobit Backend v1"));
             }
 
             app.UseHttpsRedirection();
